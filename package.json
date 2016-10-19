@@ -6,11 +6,11 @@
     "email": "olegman.ru@gmail.com"
   },
   "bugs": {
-    "url": "https://github.com/olegman/react-router-async/issues"
+    "url": "https://github.com/router-async/react-router-async/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/olegman/react-router-async.git"
+    "url": "https://github.com/router-async/react-router-async.git"
   },
   "license": "MIT",
   "main": "lib/index.js",

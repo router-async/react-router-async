@@ -18,4 +18,4 @@ deploy:
   api_key: $NPM_API_KEY
   on:
     tags: true
-    repo: olegman/react-router-async
+    repo: router-async/react-router-async
