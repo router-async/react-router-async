@@ -11,7 +11,7 @@ export interface Props {
 }
 export interface State {
     location: any,
-    Component: React.ReactElement<Props>;
+    Component: React.ComponentClass<Props>;
 }
 export interface Action {
     (): React.ReactElement<Props>;

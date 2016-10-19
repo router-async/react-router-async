@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "react": "^15.3.2",
-    "router-async": "0.0.2"
+    "router-async": "0.0.3"
   }
 }
