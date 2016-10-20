@@ -7,6 +7,8 @@
 
 React Router Async is ultimate routing solution for your React applications, especially it's good in universal applications.
 
+![logo](https://raw.githubusercontent.com/router-async/react-router-async/master/logo.svg)
+
 ## Installation
 ```bash
 yarn add react-router-async

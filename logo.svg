@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 189.667 121.667" enable-background="new 0 0 189.667 121.667" xml:space="preserve">
+<path fill="#3BBFF0" d="M131.5,32.25c-0.539,0-1.062-0.063-1.567-0.175c-2.44,18.146-11.935,28.401-28.311,30.591
+	c0.081,0.433,0.128,0.878,0.128,1.334c0,0.594-0.079,1.168-0.214,1.721c18.344-2.186,28.889-13.461,31.43-33.62
+	C132.492,32.199,132.002,32.25,131.5,32.25z"/>
+<path fill="#3BBFF0" d="M87.25,64c0-0.447,0.046-0.882,0.124-1.306c-23.647-2.798-27.58-19.217-28.514-30.576
+	c-0.441,0.084-0.895,0.132-1.36,0.132c-0.57,0-1.122-0.073-1.654-0.197c0.951,11.937,5.147,30.783,31.621,33.68
+	C87.331,65.177,87.25,64.598,87.25,64z"/>
+<circle fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="#3BBFF0" stroke-width="4" stroke-miterlimit="10" cx="94.5" cy="25" r="5"/>
+<circle fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="#3BBFF0" stroke-width="4" stroke-miterlimit="10" cx="57.5" cy="25" r="5"/>
+<circle fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="#3BBFF0" stroke-width="4" stroke-miterlimit="10" cx="131.5" cy="25" r="5"/>
+<circle fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="#3BBFF0" stroke-width="4" stroke-miterlimit="10" cx="94.5" cy="103" r="5"/>
+<circle fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="#3BBFF0" stroke-width="4" stroke-miterlimit="10" cx="94.5" cy="64" r="5"/>
+<g>
+	<path fill="#3BBFF0" d="M94.5,56.625c0.514,0,1.016,0.053,1.5,0.154V32.092c-0.484,0.102-0.986,0.158-1.5,0.158
+		s-1.016-0.055-1.5-0.158v24.686C93.484,56.678,93.986,56.625,94.5,56.625z"/>
+	<path fill="#3BBFF0" d="M94.5,71.375c-0.514,0-1.016-0.053-1.5-0.154v24.686c0.484-0.102,0.986-0.158,1.5-0.158
+		s1.016,0.055,1.5,0.158V71.221C95.516,71.322,95.014,71.375,94.5,71.375z"/>
+</g>
+<text transform="matrix(1 0 0 1 26.1667 32.8862)" fill="#F9B214" font-family="'Roboto-Bold'" font-size="31px">&lt;</text>
+<text transform="matrix(1 0 0 1 126.4999 109.7196)" fill="#F9B214" font-family="'Roboto-Bold'" font-size="31px">/&gt;</text>
+</svg>
