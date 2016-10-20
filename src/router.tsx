@@ -10,8 +10,9 @@ export interface Props {
     [propName: string]: any;
 }
 export interface State {
-    location: any,
-    Component: React.ComponentClass<Props>;
+    location?: any,
+    Component?: React.ComponentClass<Props>,
+    props?: any;
 }
 export interface Action {
     (): React.ReactElement<Props>;
@@ -35,22 +36,27 @@ export default class Router extends React.Component<Props, State> {
         super();
         this.state = {
             Component: props.Component,
-            location: props.history.location
+            location: props.history.location,
+            props: props.props
         };
 
         this.router = props.router;
         this.history = props.history;
     }
-    static async init({ path, routes, hooks }) {
+    static async init({ path, routes, hooks, ctx = {} }) {
         const plainRoutes = Router.buildRoutes(routes);
         const router = new RouterAsync({ routes: plainRoutes, hooks });
-        const { result, redirect, status } = await router.resolve({ path });
+        const { result, redirect, status } = await router.resolve({ path, ctx });
+        let props = {
+            ctx
+        };
         return {
             Router,
             Component: result,
             redirect,
             status,
             router,
+            props,
             callback: this.makeCallback(router)
         }
     }
@@ -97,9 +103,9 @@ export default class Router extends React.Component<Props, State> {
     get location() {
         return this.state.location;
     }
-    async navigate(path) {
+    async navigate(path, ctx = {}) {
         try {
-            const { redirect } = await this.router.match({ path, ctx: {} });
+            const { redirect } = await this.router.match({ path, ctx });
             if (redirect) {
                 this.history.push(redirect);
             } else {
@@ -109,17 +115,30 @@ export default class Router extends React.Component<Props, State> {
             if (this.props.errorHandler) {
                 this.props.errorHandler(error, this);
             } else {
-                console.error('Navigate Error', error);
+                console.error('Match Error', path, error);
                 throw error;
             }
         }
     }
     private _locationChanged = async (location, action) => {
-        const { result } = await this.router.resolve({ path: location.pathname, ctx: {} });
-        this.setState({
-            Component: result,
-            location
-        }, Router.makeCallback(this.router));
+        try {
+            const { result, ctx } = await this.router.resolve({ path: location.pathname });
+            let props = {
+                ctx
+            };
+            this.setState({
+                Component: result,
+                location,
+                props
+            }, Router.makeCallback(this.router));
+        } catch (error) {
+            if (this.props.errorHandler) {
+                this.props.errorHandler(error, this);
+            } else {
+                console.error('Resolve Error', location, error);
+                throw error;
+            }
+        }
     };
     componentDidMount() {
         this.unlistenHistroy = this.history.listen(this._locationChanged)
@@ -128,6 +147,6 @@ export default class Router extends React.Component<Props, State> {
         this.unlistenHistroy();
     }
     render() {
-        return <this.state.Component/>
+        return <this.state.Component router={this.state.props} />
     }
 }
