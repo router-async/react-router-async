@@ -1,6 +1,6 @@
 {
   "name": "react-router-async",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "Oleg Martynov",
     "email": "olegman.ru@gmail.com"
@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "react": "^15.3.2",
-    "router-async": "0.0.3"
+    "router-async": "0.0.4"
   }
 }
