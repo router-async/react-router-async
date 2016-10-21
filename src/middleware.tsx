@@ -20,6 +20,7 @@ export default class Middleware extends React.Component<Props, State> {
         action: React.PropTypes.func
     };
     render() {
-        return React.Children.only(this.props.children);
+        const childs = Array.isArray(this.props.children ? this.props.children : [this.props.children]);
+        return React.Children.only(childs);
     }
 }

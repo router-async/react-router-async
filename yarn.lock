@@ -90,9 +90,9 @@ react@^15.3.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-router-async@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.0.1.tgz#884b5bcbdffbd23bf4a202ab6a99b3a0bb37bcde"
+router-async:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.0.4.tgz#290575273b9ee4206ed6b587221d3a23d5116ef1"
   dependencies:
     path-to-regexp "^1.6.0"
 

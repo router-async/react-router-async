@@ -1,4 +1,4 @@
-import RouterAsync from 'router-async';
+import { Router as RouterAsync, Context } from 'router-async';
 import * as React from 'react';
 import { deepMap } from './helpers';
 
@@ -43,11 +43,16 @@ export default class Router extends React.Component<Props, State> {
         this.router = props.router;
         this.history = props.history;
     }
-    static async init({ path, routes, hooks, ctx = {} }) {
+    static async init({ path, routes, hooks, ctx = new Context() }) {
         const plainRoutes = Router.buildRoutes(routes);
         const router = new RouterAsync({ routes: plainRoutes, hooks });
-        const { result, redirect, status } = await router.resolve({ path, ctx });
+        const { route, status, params, redirect, result } = await router.resolve({ path, ctx });
         let props = {
+            path,
+            route,
+            status,
+            params,
+            redirect,
             ctx
         };
         return {
@@ -57,7 +62,7 @@ export default class Router extends React.Component<Props, State> {
             status,
             router,
             props,
-            callback: this.makeCallback(router)
+            callback: this.makeCallback(router, { path, route, status, params, redirect, result, ctx })
         }
     }
     static buildRoutes(routes) {
@@ -103,7 +108,7 @@ export default class Router extends React.Component<Props, State> {
     get location() {
         return this.state.location;
     }
-    async navigate(path, ctx = {}) {
+    async navigate(path, ctx = new Context()) {
         try {
             const { redirect } = await this.router.match({ path, ctx });
             if (redirect) {
@@ -112,9 +117,8 @@ export default class Router extends React.Component<Props, State> {
                 this.history.push(path);
             }
         } catch (error) {
-            if (this.props.errorHandler) {
-                this.props.errorHandler(error, this);
-            } else {
+            this.history.push(path);
+            if (!this.props.errorHandler) {
                 console.error('Match Error', path, error);
                 throw error;
             }
@@ -122,15 +126,20 @@ export default class Router extends React.Component<Props, State> {
     }
     private _locationChanged = async (location, action) => {
         try {
-            const { result, ctx } = await this.router.resolve({ path: location.pathname });
+            const { path, route, status, params, redirect, result, ctx } = await this.router.resolve({ path: location.pathname });
             let props = {
+                path,
+                route,
+                status,
+                params,
+                redirect,
                 ctx
             };
             this.setState({
                 Component: result,
                 location,
                 props
-            }, Router.makeCallback(this.router));
+            }, Router.makeCallback(this.router, { path, route, status, params, redirect, result, ctx }));
         } catch (error) {
             if (this.props.errorHandler) {
                 this.props.errorHandler(error, this);

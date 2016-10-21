@@ -4,6 +4,6 @@ import Link from './link';
 import RootRoute from './root-route';
 import Middleware from './middleware';
 import Redirect from './redirect';
-import { RouterError } from 'router-async';
+import { RouterError, Context } from 'router-async';
 
-export { Router, Route, Link, RootRoute, Middleware, Redirect, RouterError };
+export { Router, Route, Link, RootRoute, Middleware, Redirect, RouterError, Context };
