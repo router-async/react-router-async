@@ -25,7 +25,7 @@
     "typescript": "next"
   },
   "dependencies": {
-    "react": "^15.3.2",
-    "router-async": "0.0.4"
+    "react": "15.x.x",
+    "router-async": "0.1.x"
   }
 }

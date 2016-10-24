@@ -12,10 +12,14 @@ export interface State {
 
 export default class Middleware extends React.Component<Props, State> {
     static propTypes = {
-        children: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+        children: React.PropTypes.oneOfType([
             jsxInstanceOf(Route),
-            jsxInstanceOf(Redirect)
-        ])).isRequired,
+            jsxInstanceOf(Redirect),
+            React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+                jsxInstanceOf(Route),
+                jsxInstanceOf(Redirect)
+            ]))
+        ]).isRequired,
         path: React.PropTypes.string.isRequired,
         action: React.PropTypes.func
     };

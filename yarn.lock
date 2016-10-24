@@ -82,7 +82,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-react@^15.3.2:
+react@15.x.x:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.3.2.tgz#a7bccd2fee8af126b0317e222c28d1d54528d09e"
   dependencies:
@@ -90,15 +90,15 @@ react@^15.3.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-router-async:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.0.4.tgz#290575273b9ee4206ed6b587221d3a23d5116ef1"
+router-async@0.1.x:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.1.0.tgz#109227c67ab35745fcb974ac52e0c1a41e66ec58"
   dependencies:
     path-to-regexp "^1.6.0"
 
 typescript@next:
-  version "2.1.0-dev.20161019"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.1.0-dev.20161019.tgz#45c6a32b1b4a00dd87c8e1e3ee3e00b80f61b5c0"
+  version "2.1.0-dev.20161024"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.1.0-dev.20161024.tgz#8c9bd571ce990a1bc01444e28b5124658145b83a"
 
 ua-parser-js@^0.7.9:
   version "0.7.10"

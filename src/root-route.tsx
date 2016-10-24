@@ -13,11 +13,16 @@ export interface State {
 
 export default class RootRoute extends React.Component<Props, State> {
     static propTypes = {
-        children: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+        children: React.PropTypes.oneOfType([
             jsxInstanceOf(Route),
             jsxInstanceOf(Middleware),
-            jsxInstanceOf(Redirect)
-        ])).isRequired
+            jsxInstanceOf(Redirect),
+            React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+                jsxInstanceOf(Route),
+                jsxInstanceOf(Middleware),
+                jsxInstanceOf(Redirect)
+            ]))
+        ]).isRequired
     };
     render() {
         return React.Children.only(this.props.children);
