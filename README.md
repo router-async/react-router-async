@@ -1,5 +1,4 @@
 # React Router Async
-[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 [![Latest Stable Version](https://img.shields.io/npm/v/react-router-async.svg?style=flat-square)](https://www.npmjs.com/package/react-router-async)
 [![License](https://img.shields.io/npm/l/react-router-async.svg?style=flat-square)](https://www.npmjs.com/package/react-router-async)
 
