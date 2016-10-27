@@ -43,10 +43,10 @@ export default class Router extends React.Component<Props, State> {
         this.router = props.router;
         this.history = props.history;
     }
-    static async init({ path, routes, hooks, ctx = new Context() }) {
+    static async init({ path, routes, hooks, silent = false, ctx = new Context() }) {
         const plainRoutes = Router.buildRoutes(routes);
         const router = new RouterAsync({ routes: plainRoutes, hooks });
-        const { route, status, params, redirect, result } = await router.resolve({ path, ctx });
+        const { route, status, params, redirect, result } = await router.run({ path, ctx, silent });
         let props = {
             path,
             route,
@@ -66,26 +66,14 @@ export default class Router extends React.Component<Props, State> {
         }
     }
     static buildRoutes(routes) {
-        if (!Array.isArray(routes)) {
-            routes = routes.props.children;
-        }
+        if (!Array.isArray(routes)) routes = routes.props.children;
         return deepMap(routes, route => {
             const result: Route = {};
-            if (route.props.path) {
-                result.path = route.props.path;
-            }
-            if (route.props.action) {
-                result.action = route.props.action;
-            }
-            if (route.props.status) {
-                result.status = route.props.status;
-            }
-            if (route.props.to) {
-                result.to = route.props.to;
-            }
-            if (route.props.children) {
-                result.childs = Array.isArray(route.props.children) ? route.props.children : [route.props.children];
-            }
+            if (route.props.path) result.path = route.props.path;
+            if (route.props.action) result.action = route.props.action;
+            if (route.props.status) result.status = route.props.status;
+            if (route.props.to) result.to = route.props.to;
+            if (route.props.children) result.childs = Array.isArray(route.props.children) ? route.props.children : [route.props.children];
             return result;
         });
     }
@@ -126,7 +114,7 @@ export default class Router extends React.Component<Props, State> {
     }
     private _locationChanged = async (location, action) => {
         try {
-            const { path, route, status, params, redirect, result, ctx } = await this.router.resolve({ path: location.pathname });
+            const { path, route, status, params, redirect, result, ctx } = await this.router.run({ path: location.pathname });
             let props = {
                 path,
                 route,
