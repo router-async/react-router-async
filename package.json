@@ -17,8 +17,8 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rm -rf lib",
-    "watch": "npm run clean && tsc -p . --watch",
-    "transpile": "npm run clean && tsc -p .",
+    "watch": "yarn run clean && tsc -p . --watch",
+    "transpile": "yarn run clean && tsc -p .",
     "tsc": "tsc"
   },
   "devDependencies": {

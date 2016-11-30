@@ -8,9 +8,9 @@ cache:
     - node_modules
 
 script:
-  - npm i -g typings
+  - yarn global add typings
   - typings install
-  - npm run transpile
+  - yarn run transpile
 
 deploy:
   provider: npm
