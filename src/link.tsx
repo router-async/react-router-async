@@ -2,6 +2,7 @@ import * as React from 'react';
 
 export interface Props {
     to: any,
+    className: any,
     [propName: string]: any;
 }
 export interface State {
