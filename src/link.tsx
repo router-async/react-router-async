@@ -18,6 +18,6 @@ export default class Link extends React.Component<Props, State> {
         e.preventDefault();
     };
     render() {
-        return <a href={this.props.to} onClick={this.navigate}>{this.props.children}</a>;
+        return <a href={this.props.to} onClick={this.navigate} className={this.props.className}>{this.props.children}</a>;
     }
 }
