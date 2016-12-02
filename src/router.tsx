@@ -112,6 +112,15 @@ export default class Router extends React.Component<Props, State> {
             }
         }
     }
+    goBack() {
+        this.history.goBack();
+    }
+    goForward() {
+        this.history.goForward();
+    }
+    go(n) {
+        this.history.go(n);
+    }
     private _locationChanged = async (location, action) => {
         try {
             const { path, route, status, params, redirect, result, ctx } = await this.router.run({ path: location.pathname });
