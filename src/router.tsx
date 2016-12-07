@@ -10,7 +10,6 @@ export interface Props {
     [propName: string]: any;
 }
 export interface State {
-    location?: any,
     Component?: React.ComponentClass<Props>,
     props?: any;
 }
@@ -32,16 +31,19 @@ export default class Router extends React.Component<Props, State> {
     private router: any;
     private history: any;
     private unlistenHistroy: any;
+    private subscriber: any;
+    private location: any;
     constructor(props) {
         super();
         this.state = {
             Component: props.Component,
-            location: props.history.location,
             props: props.props
         };
 
+        this.location = props.history.location;
         this.router = props.router;
         this.history = props.history;
+        this.subscriber = null;
     }
     static async init({ path, routes, hooks, silent = false, ctx = new Context() }) {
         const plainRoutes = Router.buildRoutes(routes);
@@ -93,9 +95,6 @@ export default class Router extends React.Component<Props, State> {
             router: this
         };
     }
-    get location() {
-        return this.state.location;
-    }
     async navigate(path, ctx = new Context()) {
         try {
             const { redirect } = await this.router.match({ path, ctx });
@@ -112,6 +111,19 @@ export default class Router extends React.Component<Props, State> {
             }
         }
     }
+    subscribe(callback: Function) {
+        this.subscriber = callback;
+    }
+    changeComponent(Component, props, renderCallback) {
+        if (this.subscriber) {
+            this.subscriber(Component, props, renderCallback);
+        } else {
+            this.setState({
+                Component,
+                props
+            }, renderCallback);
+        }
+    }
     private _locationChanged = async (location, action) => {
         try {
             const { path, route, status, params, redirect, result, ctx } = await this.router.run({ path: location.pathname });
@@ -123,11 +135,9 @@ export default class Router extends React.Component<Props, State> {
                 redirect,
                 ctx
             };
-            this.setState({
-                Component: result,
-                location,
-                props
-            }, Router.makeCallback(this.router, { path, route, status, params, redirect, result, ctx }));
+            this.location = location;
+            let renderCallback = Router.makeCallback(this.router, { path, route, status, params, redirect, result, ctx });
+            this.changeComponent(result, props, renderCallback);
         } catch (error) {
             if (this.props.errorHandler) {
                 this.props.errorHandler(error, this);
@@ -144,6 +154,10 @@ export default class Router extends React.Component<Props, State> {
         this.unlistenHistroy();
     }
     render() {
-        return <this.state.Component router={this.state.props} />
+        if (this.props.children) {
+            return React.Children.only(this.props.children)
+        } else {
+            return <this.state.Component router={this.state.props} />
+        }
     }
 }
