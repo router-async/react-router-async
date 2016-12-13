@@ -32,7 +32,7 @@ export default class Router extends React.Component<Props, State> {
     private history: any;
     private unlistenHistroy: any;
     private subscriber: any;
-    private location: any;
+
     constructor(props) {
         super();
         this.state = {
@@ -40,7 +40,6 @@ export default class Router extends React.Component<Props, State> {
             props: props.props
         };
 
-        this.location = props.history.location;
         this.router = props.router;
         this.history = props.history;
         this.subscriber = null;
@@ -48,9 +47,11 @@ export default class Router extends React.Component<Props, State> {
     static async init({ path, routes, hooks, silent = false, ctx = new Context() }) {
         const plainRoutes = Router.buildRoutes(routes);
         const router = new RouterAsync({ routes: plainRoutes, hooks });
-        const { route, status, params, redirect, result } = await router.run({ path, ctx, silent });
+        const { location, route, status, params, redirect, result } = await router.run({ path, ctx, silent });
+
         let props = {
             path,
+            location,
             route,
             status,
             params,
@@ -133,18 +134,18 @@ export default class Router extends React.Component<Props, State> {
     go(n) {
         this.history.go(n);
     }
-    private _locationChanged = async (location, action) => {
+    private _locationChanged = async ({ pathname }) => {
         try {
-            const { path, route, status, params, redirect, result, ctx } = await this.router.run({ path: location.pathname });
+            const { path, location, route, status, params, redirect, result, ctx } = await this.router.run({ path: pathname });
             let props = {
                 path,
+                location,
                 route,
                 status,
                 params,
                 redirect,
                 ctx
             };
-            this.location = location;
             let renderCallback = Router.makeCallback(this.router, { path, route, status, params, redirect, result, ctx });
             this.changeComponent(result, props, renderCallback);
         } catch (error) {

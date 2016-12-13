@@ -7,4 +7,14 @@ import Redirect from './redirect';
 import PlaceHolder from './placeholder';
 import { RouterError, Context } from 'router-async';
 
-export { Router, Route, Link, RootRoute, Middleware, Redirect, PlaceHolder, RouterError, Context };
+export {
+    Router,
+    Route,
+    Link,
+    RootRoute,
+    Middleware,
+    Redirect,
+    PlaceHolder,
+    RouterError,
+    Context
+};
