@@ -11,7 +11,9 @@ export interface Props {
 }
 export interface State {
     Component?: React.ComponentClass<Props>,
-    props?: any;
+    componentProps?: any;
+    path?: any;
+    location?: any;
 }
 export interface Action {
     (): React.ReactElement<Props>;
@@ -26,45 +28,73 @@ export interface Route {
     to?: string,
     childs?: Childs
 }
+export interface initParams {
+    path: string,
+    routes: Array<Route>,
+    hooks: any,
+    history?: any,
+    silent?: boolean,
+    ctx: any
+}
+export interface initResult {
+    Router?: any,
+    Component?: any,
+    redirect?: any,
+    status?: any,
+    routerProps?: any,
+    componentProps?: any,
+    callback?: any
+}
 
 export default class Router extends React.Component<Props, State> {
-    private router: any;
-    private history: any;
-    private unlistenHistroy: any;
+    router: any;
+    path: string;
+    location: any;
     private subscriber: any;
-
-    constructor(props) {
+    constructor({ Component, componentProps, router, path, location }) {
         super();
         this.state = {
-            Component: props.Component,
-            props: props.props
+            Component,
+            componentProps,
+            path,
+            location
         };
 
-        this.router = props.router;
-        this.history = props.history;
+        this.router = router;
+        this.path = path;
+        this.location = location;
         this.subscriber = null;
     }
-    static async init({ path, routes, hooks, silent = false, ctx = new Context() }) {
+    static async init(opts: initParams): Promise<initResult> {
+        const { path, routes, hooks, history = null, silent = false, ctx = new Context() } = opts;
         const plainRoutes = Router.buildRoutes(routes);
         const router = new RouterAsync({ routes: plainRoutes, hooks });
         const { location, route, status, params, redirect, result } = await router.run({ path, ctx, silent });
-
-        let props = {
-            path,
-            location,
-            route,
-            status,
-            params,
-            redirect,
-            ctx
+        const componentProps = {
+            router: {
+                path,
+                location,
+                route,
+                status,
+                params,
+                redirect,
+                ctx
+            }
         };
+
         return {
-            Router,
             Component: result,
             redirect,
             status,
-            router,
-            props,
+            routerProps: {
+                Component: result,
+                componentProps,
+                router,
+                path,
+                location,
+                history
+            },
+            componentProps,
             callback: this.makeCallback(router, { path, route, status, params, redirect, result, ctx })
         }
     }
@@ -88,86 +118,44 @@ export default class Router extends React.Component<Props, State> {
     static runRenderHooks(router, options = {}) {
         return router.runHooks('render', options);
     }
-    static childContextTypes = {
-        router: React.PropTypes.object
-    };
-    getChildContext() {
-        return {
-            router: this
-        };
-    }
-    async navigate(path, ctx = new Context()) {
-        try {
-            const { redirect } = await this.router.match({ path, ctx });
-            if (redirect) {
-                this.history.push(redirect);
-            } else {
-                this.history.push(path);
-            }
-        } catch (error) {
-            this.history.push(path);
-            if (!this.props.errorHandler) {
-                console.error('Match Error', path, error);
-                throw error;
-            }
-        }
-    }
     subscribe(callback: Function) {
         this.subscriber = callback;
     }
-    changeComponent(Component, props, renderCallback) {
+    changeComponent({ Component, componentProps, path, location, renderCallback }) {
         if (this.subscriber) {
-            this.subscriber(Component, props, renderCallback);
+            this.subscriber({ Component, componentProps, path, location, renderCallback });
+        } else {
+            this.setState({
+                path,
+                location,
+                Component,
+                componentProps
+            }, renderCallback);
+        }
+        this.path = path;
+        this.location = location;
+    }
+    replaceComponent(Component, componentProps) {
+        if (this.subscriber) {
+            this.subscriber({ Component, componentProps, path: this.path, location: this.location })
         } else {
             this.setState({
                 Component,
-                props
-            }, renderCallback);
+                componentProps
+            });
         }
     }
-    goBack() {
-        this.history.goBack();
-    }
-    goForward() {
-        this.history.goForward();
-    }
-    go(n) {
-        this.history.go(n);
-    }
-    private _locationChanged = async ({ pathname }) => {
-        try {
-            const { path, location, route, status, params, redirect, result, ctx } = await this.router.run({ path: pathname });
-            let props = {
-                path,
-                location,
-                route,
-                status,
-                params,
-                redirect,
-                ctx
-            };
-            let renderCallback = Router.makeCallback(this.router, { path, route, status, params, redirect, result, ctx });
-            this.changeComponent(result, props, renderCallback);
-        } catch (error) {
-            if (this.props.errorHandler) {
-                this.props.errorHandler(error, this);
-            } else {
-                console.error('Resolve Error', location, error);
-                throw error;
-            }
+    getState() {
+        return {
+            path: this.path,
+            location: this.location
         }
-    };
-    componentDidMount() {
-        this.unlistenHistroy = this.history.listen(this._locationChanged)
-    }
-    componentWillUnmount() {
-        this.unlistenHistroy();
     }
     render() {
         if (this.props.children) {
             return React.Children.only(this.props.children)
         } else {
-            return <this.state.Component router={this.state.props} />
+            return <this.state.Component {...this.state.componentProps} />
         }
     }
 }

@@ -10,7 +10,7 @@ cache:
 script:
   - yarn global add typings
   - typings install
-  - yarn run transpile
+  - yarn run build
 
 deploy:
   provider: npm

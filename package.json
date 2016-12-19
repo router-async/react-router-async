@@ -19,6 +19,7 @@
     "clean": "rm -rf lib",
     "watch": "yarn run clean && tsc -p . --watch",
     "transpile": "yarn run clean && tsc -p .",
+    "build": "yarn run clean && tsc --outDir ./ -p .",
     "tsc": "tsc"
   },
   "devDependencies": {

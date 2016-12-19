@@ -14,6 +14,9 @@ export default class Link extends React.Component<Props, State> {
     static contextTypes = {
         router: React.PropTypes.object
     };
+    static isActive(to, path, activeOnlyWhenExact) {
+        return activeOnlyWhenExact ? path === to : path.indexOf(to) === 0;
+    };
     navigate = e => {
         this.context.router.navigate(this.props.to);
         e.preventDefault();
@@ -21,9 +24,20 @@ export default class Link extends React.Component<Props, State> {
     render() {
         const {
             to,
+            className,
+            activeClassName,
+            activeOnlyWhenExact,
             ...rest
         } = this.props;
+        const isActive = Link.isActive(to, this.context.router.getState().location.pathname, activeOnlyWhenExact);
 
-        return <a href={to} onClick={this.navigate} {...rest}>{this.props.children}</a>;
+        return (
+            <a
+                {...rest}
+                href={to}
+                onClick={this.navigate}
+                className={isActive ? [className, activeClassName].join(' ').trim() : className}
+            />
+        );
     }
 }
