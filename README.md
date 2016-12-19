@@ -25,20 +25,20 @@ import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
 const mountNode = document.getElementById('app');
 
-Router.init({ path: history.location.pathname, routes, hooks }).then(({ Router, Component, router, callback }) => {
-    ReactDOM.render(<Router {...{ Component, router, history }} />, mountNode, callback);
+Router.init({ path: history.location.pathname, routes, hooks, history }).then(({ Router, routerProps, Component, componentProps, callback }) => {
+    ReactDOM.render(<Router {...routerProps} />, mountNode, callback);
 }).catch(error => console.log(error));
 ```
 
 On server (for example as express middleware):
 ```javascript 
 export default function (req, res, next) {
-    Router.init({ path: req.path, routes, hooks }).then(({ Component, status, redirect }) => {
+    Router.init({ path: req.path, routes, hooks }).then(({ Router, routerProps, status, redirect }) => {
         if (redirect) {
             res.redirect(status, redirect);
         } else {
             const html = ReactDOM.renderToStaticMarkup(HtmlComponent({
-                markup: ReactDOM.renderToString(<Component />),
+                markup: ReactDOM.renderToString(<Router {...routerProps} />),
                 assets: assets
             }));
             res.status(status).send('<!DOCTYPE html>' + html);
