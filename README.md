@@ -18,14 +18,14 @@ On client:
 ```javascript 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from 'react-router-async';
+import { BrowserRouter } from 'react-router-async';
 import { routes, hooks } from './common';
 import createHistory from 'history/createBrowserHistory';
 
 const history = createHistory();
 const mountNode = document.getElementById('app');
 
-Router.init({ path: history.location.pathname, routes, hooks, history }).then(({ Router, routerProps, Component, componentProps, callback }) => {
+BrowserRouter.init({ path: history.location.pathname, routes, hooks, history }).then(({ Router, routerProps, Component, componentProps, callback }) => {
     ReactDOM.render(<Router {...routerProps} />, mountNode, callback);
 }).catch(error => console.log(error));
 ```
@@ -33,7 +33,7 @@ Router.init({ path: history.location.pathname, routes, hooks, history }).then(({
 On server (for example as express middleware):
 ```javascript 
 export default function (req, res, next) {
-    Router.init({ path: req.path, routes, hooks }).then(({ Router, routerProps, status, redirect }) => {
+    ServerRouter.init({ path: req.path, routes, hooks }).then(({ Router, routerProps, status, redirect }) => {
         if (redirect) {
             res.redirect(status, redirect);
         } else {
