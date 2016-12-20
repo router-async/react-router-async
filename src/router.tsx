@@ -61,8 +61,6 @@ export default class Router extends React.Component<Props, State> {
         };
 
         this.router = router;
-        this.path = path;
-        this.location = location;
         this.subscriber = null;
     }
     static async init(opts: initParams): Promise<initResult> {
@@ -119,7 +117,7 @@ export default class Router extends React.Component<Props, State> {
         return router.runHooks('render', options);
     }
     subscribe(callback: Function) {
-        this.subscriber = callback;
+        this.subscriber = callback.bind(this);
     }
     changeComponent({ Component, componentProps, path, location, renderCallback }) {
         if (this.subscriber) {
@@ -132,8 +130,6 @@ export default class Router extends React.Component<Props, State> {
                 componentProps
             }, renderCallback);
         }
-        this.path = path;
-        this.location = location;
     }
     replaceComponent(Component, componentProps) {
         if (this.subscriber) {
@@ -146,10 +142,7 @@ export default class Router extends React.Component<Props, State> {
         }
     }
     getState() {
-        return {
-            path: this.path,
-            location: this.location
-        }
+        return this.state;
     }
     render() {
         if (this.props.children) {

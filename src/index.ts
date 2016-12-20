@@ -5,7 +5,7 @@ import Link from './link';
 import RootRoute from './root-route';
 import Middleware from './middleware';
 import Redirect from './redirect';
-import PlaceHolder from './placeholder';
+import Placeholder from './placeholder';
 import { RouterError, Context } from 'router-async';
 
 export {
@@ -16,7 +16,7 @@ export {
     RootRoute,
     Middleware,
     Redirect,
-    PlaceHolder,
+    Placeholder,
     RouterError,
     Context
 };

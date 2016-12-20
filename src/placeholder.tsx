@@ -13,7 +13,7 @@ export interface State {
 export interface Context {
     router: Router
 }
-export default class PlaceHolder extends React.Component<Props, State> {
+export default class Placeholder extends React.Component<Props, State> {
     context: Context;
     static contextTypes = {
         router: React.PropTypes.object.isRequired
@@ -26,7 +26,7 @@ export default class PlaceHolder extends React.Component<Props, State> {
         };
     }
     componentDidMount() {
-        this.context.router.subscribe(({ Component, componentProps, path, location, renderCallback }) => {
+        this.context.router.subscribe(function ({ Component, componentProps, path, location, renderCallback }) {
             this.setState({
                 path,
                 location,
@@ -36,6 +36,7 @@ export default class PlaceHolder extends React.Component<Props, State> {
         })
     }
     render() {
-        return <this.state.Component {...this.state.componentProps} />
+        const { Component, componentProps } = this.context.router.getState();
+        return <Component {...componentProps} />
     }
 }
