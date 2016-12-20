@@ -93,7 +93,7 @@ export default class Router extends React.Component<Props, State> {
                 history
             },
             componentProps,
-            callback: this.makeCallback(router, { path, route, status, params, redirect, result, ctx })
+            callback: this.makeCallback(router, { path, location, route, status, params, redirect, result, ctx })
         }
     }
     static buildRoutes(routes) {
@@ -133,7 +133,7 @@ export default class Router extends React.Component<Props, State> {
     }
     replaceComponent(Component, componentProps) {
         if (this.subscriber) {
-            this.subscriber({ Component, componentProps, path: this.path, location: this.location })
+            this.subscriber({ Component, componentProps, path: this.state.path, location: this.state.location })
         } else {
             this.setState({
                 Component,

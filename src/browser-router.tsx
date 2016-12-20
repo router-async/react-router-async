@@ -64,7 +64,7 @@ export default class BrowserRouter extends Router {
                     ctx
                 }
             };
-            const renderCallback = Router.makeCallback(this.router, { path, route, status, params, redirect, result, ctx });
+            const renderCallback = Router.makeCallback(this.router, { path, location, route, status, params, redirect, result, ctx });
             this.changeComponent({ Component: result, componentProps: props, path, location, renderCallback });
         } catch (error) {
             if (this.props.errorHandler) {
