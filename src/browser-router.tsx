@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Router, { initParams, initResult } from './router';
-import { Context } from 'router-async';
+import { Context, stringifyQuery } from 'router-async';
 
 export default class BrowserRouter extends Router {
     private history: any;
@@ -40,6 +40,16 @@ export default class BrowserRouter extends Router {
             }
         }
     }
+    async push(path) {
+        // console.warn('Please use navigate method instead of push, it will be deprecated in future');
+        if (typeof path === 'string') {
+            await this.navigate(path);
+        } else {
+            let fullPath = path.pathname;
+            if (path.query) fullPath += `?${stringifyQuery(path.query)}`;
+            await this.navigate(fullPath);
+        }
+    }
     // TODO: maybe we need to make this history methods works through navigate?
     goBack() {
         this.history.goBack();
@@ -50,9 +60,10 @@ export default class BrowserRouter extends Router {
     go(n) {
         this.history.go(n);
     }
-    private _locationChanged = async ({ pathname }) => {
+    private _locationChanged = async ({ pathname, hash, search }) => {
+        const path = pathname + search + hash;
         try {
-            const { path, location, route, status, params, redirect, result, ctx } = await this.router.run({ path: pathname });
+            const { location, route, status, params, redirect, result, ctx } = await this.router.run({ path });
             const props = {
                 router: {
                     path,
