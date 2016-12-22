@@ -95,8 +95,8 @@ react@15.x.x:
     object-assign "^4.1.0"
 
 router-async@0.2.x:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.2.2.tgz#7816d1c60e79bb43454f02bad73ffc925e2fbf69"
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.2.3.tgz#60606e65bb8f303da268ef31c5038b286ad0eb4e"
   dependencies:
     path-to-regexp "^1.6.0"
     query-string "^4.2.3"
