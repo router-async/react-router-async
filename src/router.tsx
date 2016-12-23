@@ -65,7 +65,12 @@ export default class Router extends React.Component<Props, State> {
     }
     static async init(opts: initParams): Promise<initResult> {
         const { path, routes, hooks, history = null, silent = false, ctx = new Context() } = opts;
-        const plainRoutes = Router.buildRoutes(routes);
+        let plainRoutes;
+        if ((Array.isArray(routes) && React.isValidElement(routes[0])) || React.isValidElement(routes)) {
+            plainRoutes = Router.buildRoutes(routes);
+        } else {
+            plainRoutes = routes;
+        }
         const router = new RouterAsync({ routes: plainRoutes, hooks });
         const { location, route, status, params, redirect, result } = await router.run({ path, ctx, silent });
         const componentProps = {
