@@ -33,8 +33,8 @@ export interface initParams {
     routes: Array<Route>,
     hooks: any,
     history?: any,
-    silent?: boolean,
-    ctx: any
+    ctx: any,
+    errors: any
 }
 export interface initResult {
     Router?: any,
@@ -48,10 +48,11 @@ export interface initResult {
 
 export default class Router extends React.Component<Props, State> {
     router: any;
+    errors: any;
     path: string;
     location: any;
     private subscriber: any;
-    constructor({ Component, componentProps, router, path, location }) {
+    constructor({ Component, componentProps, router, path, location, errors }) {
         super();
         this.state = {
             Component,
@@ -61,10 +62,11 @@ export default class Router extends React.Component<Props, State> {
         };
 
         this.router = router;
+        this.errors = errors;
         this.subscriber = null;
     }
     static async init(opts: initParams): Promise<initResult> {
-        const { path, routes, hooks, history = null, silent = false, ctx = new Context() } = opts;
+        const { path, routes, hooks, history = null, ctx = new Context(), errors } = opts;
         let plainRoutes;
         if ((Array.isArray(routes) && React.isValidElement(routes[0])) || React.isValidElement(routes)) {
             plainRoutes = Router.buildRoutes(routes);
@@ -72,7 +74,10 @@ export default class Router extends React.Component<Props, State> {
             plainRoutes = routes;
         }
         const router = new RouterAsync({ routes: plainRoutes, hooks });
-        const { location, route, status, params, redirect, result } = await router.run({ path, ctx, silent });
+        let { location, route, status, params, redirect, result, error } = await router.run({ path, ctx });
+        if (error !== null) {
+            result = Router.getErrorComponent(error, errors);
+        }
         const componentProps = {
             router: {
                 path,
@@ -81,7 +86,8 @@ export default class Router extends React.Component<Props, State> {
                 status,
                 params,
                 redirect,
-                ctx
+                ctx,
+                error
             }
         };
 
@@ -95,10 +101,12 @@ export default class Router extends React.Component<Props, State> {
                 router,
                 path,
                 location,
-                history
+                history,
+                errors
             },
             componentProps,
-            callback: this.makeCallback(router, { path, location, route, status, params, redirect, result, ctx })
+            callback: this.makeCallback(router, { path, location, route, status, params, redirect, result, ctx }),
+            error
         }
     }
     static buildRoutes(routes) {
@@ -124,26 +132,28 @@ export default class Router extends React.Component<Props, State> {
     subscribe(callback: Function) {
         this.subscriber = callback.bind(this);
     }
-    changeComponent({ Component, componentProps, path, location, renderCallback }) {
+    static getErrorComponent(error, errors) {
+        if (error.status in errors) {
+            return errors[error.status];
+        }
+        if ('*' in errors) {
+            return errors['*'];
+        }
+        return 'Internal error';
+    }
+    changeComponent({ Component, componentProps, path, location, error, renderCallback }) {
         if (this.subscriber) {
-            this.subscriber({ Component, componentProps, path, location, renderCallback });
+            this.subscriber({ Component, componentProps, path, location, error, renderCallback });
         } else {
+            if (error !== null) {
+                Component = Router.getErrorComponent(error, this.errors);
+            }
             this.setState({
                 path,
                 location,
                 Component,
                 componentProps
             }, renderCallback);
-        }
-    }
-    replaceComponent(Component, componentProps) {
-        if (this.subscriber) {
-            this.subscriber({ Component, componentProps, path: this.state.path, location: this.state.location })
-        } else {
-            this.setState({
-                Component,
-                componentProps
-            });
         }
     }
     getState() {

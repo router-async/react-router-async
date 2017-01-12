@@ -10,6 +10,7 @@ export default class BrowserRouter extends Router {
         this.history = props.history;
     }
     static async init(opts: initParams): Promise<initResult> {
+        opts.path = opts.history.location.pathname + opts.history.location.search + opts.history.location.hash;
         const result = await super.init(opts);
         return {
             ...result,
@@ -25,19 +26,15 @@ export default class BrowserRouter extends Router {
         };
     }
     async navigate(path, ctx = new Context()) {
-        try {
-            const { redirect } = await this.router.match({ path, ctx });
+        const { redirect, error } = await this.router.match({ path, ctx });
+        if (error === null) {
             if (redirect) {
                 this.history.push(redirect);
             } else {
                 this.history.push(path);
             }
-        } catch (error) {
+        } else {
             this.history.push(path);
-            if (!this.props.errorHandler) {
-                console.error('Match Error', path, error);
-                throw error;
-            }
         }
     }
     async push(path) {
@@ -62,29 +59,24 @@ export default class BrowserRouter extends Router {
     }
     private _locationChanged = async ({ pathname, hash, search }) => {
         const path = pathname + search + hash;
-        try {
-            const { location, route, status, params, redirect, result, ctx } = await this.router.run({ path });
-            const props = {
-                router: {
-                    path,
-                    location,
-                    route,
-                    status,
-                    params,
-                    redirect,
-                    ctx
-                }
-            };
-            const renderCallback = Router.makeCallback(this.router, { path, location, route, status, params, redirect, result, ctx });
-            this.changeComponent({ Component: result, componentProps: props, path, location, renderCallback });
-        } catch (error) {
-            if (this.props.errorHandler) {
-                this.props.errorHandler(error, this);
-            } else {
-                console.error('Resolve Error', location, error);
-                throw error;
-            }
+        let { location, route, status, params, redirect, result, ctx, error } = await this.router.run({ path });
+        if (error !== null) {
+            result = Router.getErrorComponent(error, this.errors);
         }
+        const props = {
+            router: {
+                path,
+                location,
+                route,
+                status,
+                params,
+                redirect,
+                ctx,
+                error
+            }
+        };
+        const renderCallback = Router.makeCallback(this.router, { path, location, route, status, params, redirect, result, ctx });
+        this.changeComponent({ Component: result, componentProps: props, path, location, error, renderCallback });
     };
     componentDidMount() {
         this.unlistenHistroy = this.history.listen(this._locationChanged)
