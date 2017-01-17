@@ -3,6 +3,7 @@ import * as React from 'react';
 export interface Props {
     to: any,
     className: any,
+    onBeforeClick: any,
     [propName: string]: any;
 }
 export interface State {
@@ -18,6 +19,7 @@ export default class Link extends React.Component<Props, State> {
         return activeOnlyWhenExact ? path === to : path.indexOf(to) === 0;
     };
     navigate = e => {
+        if (this.props.onBeforeClick) this.props.onBeforeClick(e, this.props);
         this.context.router.navigate(this.props.to);
         e.preventDefault();
     };
