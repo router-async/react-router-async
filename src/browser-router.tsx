@@ -26,7 +26,7 @@ export default class BrowserRouter extends Router {
         };
     }
     async navigate(path, ctx = new Context()) {
-        const { redirect, error } = await this.router.match({ path, ctx });
+        const { redirect, error } = await this.router.resolve({ path, ctx });
         if (error === null) {
             if (redirect) {
                 this.history.push(redirect);

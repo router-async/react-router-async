@@ -6,7 +6,7 @@ import RootRoute from './root-route';
 import Middleware from './middleware';
 import Redirect from './redirect';
 import Placeholder from './placeholder';
-import { RouterError, Context } from 'router-async';
+import { Context, RouterError, DynamicRedirect } from 'router-async';
 
 export {
     BrowserRouter,
@@ -17,6 +17,7 @@ export {
     Middleware,
     Redirect,
     Placeholder,
+    Context,
     RouterError,
-    Context
+    DynamicRedirect
 };
