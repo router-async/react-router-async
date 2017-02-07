@@ -1,10 +1,13 @@
 {
   "name": "react-router-async",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "author": {
     "name": "Oleg Martynov",
     "email": "olegman.ru@gmail.com"
   },
+  "contributors": [
+    "Aleksey Novikov <lamo2k123@gmail.com>"
+  ],
   "bugs": {
     "url": "https://github.com/router-async/react-router-async/issues"
   },
