@@ -30,6 +30,7 @@ export default class Link extends React.Component<Props, State> {
             activeClassName,
             activeOnlyWhenExact,
             onClick,
+            onBeforeClick,
             ...rest
         } = this.props;
         const isActive = Link.isActive(to, this.context.router.getState().location.pathname, activeOnlyWhenExact);
