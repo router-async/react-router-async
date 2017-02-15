@@ -14,6 +14,7 @@ export interface State {
     componentProps?: any;
     path?: any;
     location?: any;
+    error?: any;
 }
 export interface Action {
     (): React.ReactElement<Props>;
@@ -58,7 +59,8 @@ export default class Router extends React.Component<Props, State> {
             Component,
             componentProps,
             path,
-            location
+            location,
+            error: componentProps.router.error
         };
 
         this.router = router;
@@ -152,7 +154,8 @@ export default class Router extends React.Component<Props, State> {
                 path,
                 location,
                 Component,
-                componentProps
+                componentProps,
+                error
             }, renderCallback);
         }
     }
@@ -160,10 +163,13 @@ export default class Router extends React.Component<Props, State> {
         return this.state;
     }
     render() {
-        if (this.props.children) {
-            return React.Children.only(this.props.children)
-        } else {
-            return <this.state.Component {...this.state.componentProps} />
-        }
+        return (
+            <div>
+                {this.props.children ? this.props.children : <this.state.Component {...this.state.componentProps} />}
+                <script dangerouslySetInnerHTML={{ __html: `window.__REACT_ROUTER_ASYNC__=${JSON.stringify({
+                    state: this.state
+                })};`}} />
+            </div>
+        )
     }
 }

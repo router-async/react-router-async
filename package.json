@@ -28,8 +28,10 @@
   "devDependencies": {
     "typescript": "^2.1.4"
   },
+  "peerDependencies": {
+    "react": "15.x.x"
+  },
   "dependencies": {
-    "react": "15.x.x",
     "router-async": "0.5.x"
   }
 }

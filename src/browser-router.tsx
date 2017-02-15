@@ -8,6 +8,15 @@ export default class BrowserRouter extends Router {
     constructor(props) {
         super(props);
         this.history = props.history;
+        if (window && '__REACT_ROUTER_ASYNC__' in window) {
+            const stateFromServer = window['__REACT_ROUTER_ASYNC__'].state;
+            if (stateFromServer.error !== null) {
+                this.state = {
+                    ...stateFromServer,
+                    Component: BrowserRouter.getErrorComponent(stateFromServer.error, this.errors)
+                }
+            }
+        }
     }
     static async init(opts: initParams): Promise<initResult> {
         opts.path = opts.history.location.pathname + opts.history.location.search + opts.history.location.hash;
