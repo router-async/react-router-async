@@ -37,6 +37,10 @@ export default class Placeholder extends React.Component<Props, State> {
     }
     render() {
         const { Component, componentProps } = this.context.router.getState();
-        return <Component {...componentProps} />
+        if (this.props.render) {
+            return this.props.render({ Component, componentProps });
+        } else {
+            return <Component key={componentProps.router.path} {...componentProps} />
+        }
     }
 }
