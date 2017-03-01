@@ -44,6 +44,8 @@ export default class BrowserRouter extends Router {
             } else {
                 this.history.push(path);
             }
+        } else if (error && error.message === 'Already running') {
+            console.warn('Router already running');
         } else {
             this.history.push(path);
         }
