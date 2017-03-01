@@ -37,6 +37,8 @@ export default class BrowserRouter extends Router {
         };
     }
     async navigate(path, ctx = new Context()) {
+        // TODO: better cancellation
+        if (this.router.isRunning) this.router.cancel();
         const { redirect, error } = await this.router.resolve({ path, ctx });
         if (error === null) {
             if (redirect) {
@@ -44,8 +46,6 @@ export default class BrowserRouter extends Router {
             } else {
                 this.history.push(path);
             }
-        } else if (error && error.message === 'Already running') {
-            console.warn('Router already running');
         } else {
             this.history.push(path);
         }
@@ -72,8 +72,11 @@ export default class BrowserRouter extends Router {
     }
     private _locationChanged = async ({ pathname, hash, search }, historyAction) => {
         const path = pathname + search + hash;
+        // TODO: better cancellation
+        if (this.router.isRunning) this.router.cancel();
         let { location, route, status, params, redirect, result, ctx, error } = await this.router.run({ path });
-        if (error !== null) {
+        if (error && error.message === 'Cancelled') return;
+        if (error !== null && error.message !== 'Cancelled') {
             result = Router.getErrorComponent(error, this.errors);
         }
         const props = {
