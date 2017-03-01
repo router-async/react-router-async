@@ -107,7 +107,7 @@ export default class Router extends React.Component<Props, State> {
                 errors
             },
             componentProps,
-            callback: this.makeCallback(router, { path, location, route, status, params, redirect, result, action: null, ctx }),
+            callback: this.makeCallback(router, { path, location, route, status, params, redirect, result, historyAction: null, ctx }),
             error
         }
     }
