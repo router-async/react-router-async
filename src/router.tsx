@@ -129,7 +129,7 @@ export default class Router extends React.Component<Props, State> {
         }
     }
     static runRenderHooks(router, options = {}) {
-        return router.runHooks('render', options);
+        return router.runHooks('render', router.currentTransition, options);
     }
     subscribe(callback: Function) {
         this.subscriber = callback.bind(this);
