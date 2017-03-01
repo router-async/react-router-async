@@ -68,7 +68,7 @@ export default class BrowserRouter extends Router {
     go(n) {
         this.history.go(n);
     }
-    private _locationChanged = async ({ pathname, hash, search }) => {
+    private _locationChanged = async ({ pathname, hash, search }, historyAction) => {
         const path = pathname + search + hash;
         let { location, route, status, params, redirect, result, ctx, error } = await this.router.run({ path });
         if (error !== null) {
@@ -86,7 +86,7 @@ export default class BrowserRouter extends Router {
                 error
             }
         };
-        const renderCallback = Router.makeCallback(this.router, { path, location, route, status, params, redirect, result, ctx });
+        const renderCallback = Router.makeCallback(this.router, { path, location, route, status, params, redirect, result, historyAction, ctx });
         this.changeComponent({ Component: result, componentProps: props, path, location, error, renderCallback });
     };
     componentDidMount() {
@@ -95,6 +95,7 @@ export default class BrowserRouter extends Router {
     componentWillUnmount() {
         this.unlistenHistroy();
     }
+
     render() {
         return (
             <div>
