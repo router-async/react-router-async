@@ -5,15 +5,17 @@ import { Context, stringifyQuery } from 'router-async';
 export default class BrowserRouter extends Router {
     private history: any;
     private unlistenHistroy: any;
+    private stateFromServer: any;
     constructor(props) {
         super(props);
         this.history = props.history;
+        this.stateFromServer = null;
         if (window && '__REACT_ROUTER_ASYNC__' in window) {
-            const stateFromServer = window['__REACT_ROUTER_ASYNC__'].state;
-            if (stateFromServer.error !== null) {
+            this.stateFromServer = window['__REACT_ROUTER_ASYNC__'].state;
+            if (this.stateFromServer.error !== null) {
                 this.state = {
-                    ...stateFromServer,
-                    Component: BrowserRouter.getErrorComponent(stateFromServer.error, this.errors)
+                    ...this.stateFromServer,
+                    Component: BrowserRouter.getErrorComponent(this.stateFromServer.error, this.errors)
                 }
             }
         }
@@ -92,5 +94,18 @@ export default class BrowserRouter extends Router {
     }
     componentWillUnmount() {
         this.unlistenHistroy();
+    }
+
+    render() {
+        return (
+            <div>
+                {this.props.children ? this.props.children : <this.state.Component {...this.state.componentProps} />}
+                {this.stateFromServer !== null ?
+                    <script dangerouslySetInnerHTML={{ __html: `window.__REACT_ROUTER_ASYNC__=${JSON.stringify({
+                        state: this.stateFromServer
+                    })};`}} /> : null
+                }
+            </div>
+        )
     }
 }

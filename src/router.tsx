@@ -162,14 +162,4 @@ export default class Router extends React.Component<Props, State> {
     getState() {
         return this.state;
     }
-    render() {
-        return (
-            <div>
-                {this.props.children ? this.props.children : <this.state.Component {...this.state.componentProps} />}
-                <script dangerouslySetInnerHTML={{ __html: `window.__REACT_ROUTER_ASYNC__=${JSON.stringify({
-                    state: this.state
-                })};`}} />
-            </div>
-        )
-    }
 }
