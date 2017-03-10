@@ -10,13 +10,13 @@ object-assign@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
 
-path-to-regexp@^1.6.0:
+path-to-regexp@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.7.0.tgz#59fde0f435badacba103a84e9d3bc64e96b9937d"
   dependencies:
     isarray "0.0.1"
 
-query-string@^4.2.3:
+query-string@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.3.2.tgz#ec0fd765f58a50031a3968c2431386f8947a5cdd"
   dependencies:
@@ -24,11 +24,11 @@ query-string@^4.2.3:
     strict-uri-encode "^1.0.0"
 
 router-async@0.5.x:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.5.4.tgz#c1666746089562c125c85ccee5c5e357c0ff1a48"
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.5.6.tgz#b9f05c62ef2f1659e6ce988200b53a366f73a3e2"
   dependencies:
-    path-to-regexp "^1.6.0"
-    query-string "^4.2.3"
+    path-to-regexp "^1.7.0"
+    query-string "^4.3.2"
 
 strict-uri-encode@^1.0.0:
   version "1.1.0"

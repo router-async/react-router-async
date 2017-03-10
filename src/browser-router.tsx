@@ -37,8 +37,7 @@ export default class BrowserRouter extends Router {
         };
     }
     async navigate(path, ctx = new Context()) {
-        // TODO: better cancellation
-        if (this.router.isRunning) this.router.cancel();
+        // if (this.router.isRunning) this.router.cancel(false);
         const { redirect, error } = await this.router.resolve({ path, ctx });
         if (error === null) {
             if (redirect) {
@@ -47,7 +46,7 @@ export default class BrowserRouter extends Router {
                 this.history.push(path);
             }
         } else {
-            this.history.push(path);
+            if (error.message !== 'Cancelled') this.history.push(path);
         }
     }
     async push(path) {
@@ -72,7 +71,6 @@ export default class BrowserRouter extends Router {
     }
     private _locationChanged = async ({ pathname, hash, search }, historyAction) => {
         const path = pathname + search + hash;
-        // TODO: better cancellation
         if (this.router.isRunning) this.router.cancel();
         let { location, route, status, params, redirect, result, ctx, error } = await this.router.run({ path });
         if (error && error.message === 'Cancelled') return;
