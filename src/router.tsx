@@ -27,7 +27,8 @@ export interface Route {
     action?: Action,
     status?: number,
     to?: string,
-    childs?: Childs
+    childs?: Childs,
+    [index: string]: any;
 }
 export interface initParams {
     path: string,
@@ -114,11 +115,9 @@ export default class Router extends React.Component<Props, State> {
     static buildRoutes(routes) {
         if (!Array.isArray(routes)) routes = routes.props.children;
         return deepMap(routes, route => {
-            const result: Route = {};
-            if (route.props.path) result.path = route.props.path;
-            if (route.props.action) result.action = route.props.action;
-            if (route.props.status) result.status = route.props.status;
-            if (route.props.to) result.to = route.props.to;
+            const result: Route = {
+                ...route.props
+            };
             if (route.props.children) result.childs = Array.isArray(route.props.children) ? route.props.children : [route.props.children];
             return result;
         });
