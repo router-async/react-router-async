@@ -108,7 +108,7 @@ export default class Router extends React.Component<Props, State> {
                 errors
             },
             componentProps,
-            callback: this.makeCallback(router, { path, location, route, status, params, redirect, result, historyAction: null, ctx }),
+            callback: this.makeCallback(router, router.currentTransition, { path, location, route, status, params, redirect, result, historyAction: null, ctx }),
             error
         }
     }
@@ -122,13 +122,13 @@ export default class Router extends React.Component<Props, State> {
             return result;
         });
     }
-    static makeCallback(router, options = {}) {
+    static makeCallback(router, currentTransition, options = {}) {
         return () => {
-            return Router.runRenderHooks(router, options);
+            return Router.runRenderHooks(router, currentTransition, options);
         }
     }
-    static runRenderHooks(router, options = {}) {
-        return router.runHooks('render', router.currentTransition, options);
+    static runRenderHooks(router, currentTransition, options = {}) {
+        return router.runHooks('render', currentTransition, options);
     }
     subscribe(callback: Function) {
         this.subscriber = callback.bind(this);
