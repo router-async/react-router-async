@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import Router, { initParams, initResult } from './router';
 
 export default class ServerRouter extends Router {
@@ -10,7 +11,7 @@ export default class ServerRouter extends Router {
         };
     }
     static childContextTypes = {
-        router: React.PropTypes.object
+        router: PropTypes.object
     };
     getChildContext() {
         return {
