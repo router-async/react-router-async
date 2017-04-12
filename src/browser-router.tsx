@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import Router, { initParams, initResult } from './router';
 import { Context, stringifyQuery } from 'router-async';
 
@@ -29,7 +30,7 @@ export default class BrowserRouter extends Router {
         };
     }
     static childContextTypes = {
-        router: React.PropTypes.object
+        router: PropTypes.object
     };
     getChildContext() {
         return {
