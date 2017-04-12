@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 export interface Props {
     [propName: string]: any;
@@ -9,9 +10,9 @@ export interface State {
 
 export  default class Redirect extends React.Component<Props, State> {
     static propTypes = {
-        path: React.PropTypes.string.isRequired,
-        to: React.PropTypes.string.isRequired,
-        status: React.PropTypes.oneOf([301, 302])
+        path: PropTypes.string.isRequired,
+        to: PropTypes.string.isRequired,
+        status: PropTypes.oneOf([301, 302])
     };
     static defaultProps = {
         status: 302

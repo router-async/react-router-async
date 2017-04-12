@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import { jsxInstanceOf } from './helpers';
 import * as Route from './route';
 import * as Redirect from './redirect';
@@ -12,16 +13,16 @@ export interface State {
 
 export default class Middleware extends React.Component<Props, State> {
     static propTypes = {
-        children: React.PropTypes.oneOfType([
+        children: PropTypes.oneOfType([
             jsxInstanceOf(Route),
             jsxInstanceOf(Redirect),
-            React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.oneOfType([
                 jsxInstanceOf(Route),
                 jsxInstanceOf(Redirect)
             ]))
         ]).isRequired,
-        path: React.PropTypes.string.isRequired,
-        action: React.PropTypes.func
+        path: PropTypes.string.isRequired,
+        action: PropTypes.func
     };
     render() {
         const childs = Array.isArray(this.props.children ? this.props.children : [this.props.children]);

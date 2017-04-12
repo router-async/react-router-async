@@ -3,6 +3,7 @@ import { jsxInstanceOf } from './helpers';
 import * as Route from './route';
 import * as Middleware from './middleware';
 import * as Redirect from './redirect';
+import * as PropTypes from 'prop-types';
 
 export interface Props {
     [propName: string]: any;
@@ -13,11 +14,11 @@ export interface State {
 
 export default class RootRoute extends React.Component<Props, State> {
     static propTypes = {
-        children: React.PropTypes.oneOfType([
+        children: PropTypes.oneOfType([
             jsxInstanceOf(Route),
             jsxInstanceOf(Middleware),
             jsxInstanceOf(Redirect),
-            React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.oneOfType([
                 jsxInstanceOf(Route),
                 jsxInstanceOf(Middleware),
                 jsxInstanceOf(Redirect)

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import Router from './router';
 
 export interface Props {
@@ -16,7 +17,7 @@ export interface Context {
 export default class Placeholder extends React.Component<Props, State> {
     context: Context;
     static contextTypes = {
-        router: React.PropTypes.object.isRequired
+        router: PropTypes.object.isRequired
     };
     constructor({ Component, componentProps }) {
         super();
