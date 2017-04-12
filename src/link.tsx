@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 export interface Props {
     to: any,
@@ -13,7 +14,7 @@ export interface State {
 export default class Link extends React.Component<Props, State> {
     context: any;
     static contextTypes = {
-        router: React.PropTypes.object
+        router: PropTypes.object
     };
     static isActive(to, path, activeOnlyWhenExact) {
         return activeOnlyWhenExact ? path === to : path.indexOf(to) === 0;
