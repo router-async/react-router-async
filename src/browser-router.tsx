@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import Router, { initParams, initResult } from './router';
 import { Context, stringifyQuery } from 'router-async';
 
