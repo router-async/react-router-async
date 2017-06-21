@@ -75,7 +75,7 @@ export default class BrowserRouter extends Router {
         if (this.router.isRunning) this.router.cancel();
         const currentTransition = this.router.currentTransition;
         let opts = { path, ctx: new Context() };
-        if (state.ctx) opts.ctx = state.ctx;
+        if (state && state.ctx) opts.ctx = state.ctx;
         let { location, route, status, params, redirect, result, ctx, error } = await this.router.run(opts);
         if (error && error.message === 'Cancelled') return;
         if (error !== null && error.message !== 'Cancelled') {
