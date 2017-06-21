@@ -42,9 +42,9 @@ export default class BrowserRouter extends Router {
         const { redirect, error } = await this.router.resolve({ path, ctx });
         if (error === null) {
             if (redirect) {
-                this.history.push(redirect);
+                this.history.push(redirect, { ctx });
             } else {
-                this.history.push(path);
+                this.history.push(path, { ctx });
             }
         } else {
             if (error.message !== 'Cancelled') this.history.push(path);
@@ -70,11 +70,13 @@ export default class BrowserRouter extends Router {
     go(n) {
         this.history.go(n);
     }
-    private _locationChanged = async ({ pathname, hash, search }, historyAction) => {
+    private _locationChanged = async ({ pathname, hash, search, state }, historyAction) => {
         const path = pathname + search + hash;
         if (this.router.isRunning) this.router.cancel();
         const currentTransition = this.router.currentTransition;
-        let { location, route, status, params, redirect, result, ctx, error } = await this.router.run({ path });
+        let opts = { path };
+        if (state.ctx) opts.ctx = state.ctx;
+        let { location, route, status, params, redirect, result, ctx, error } = await this.router.run(opts);
         if (error && error.message === 'Cancelled') return;
         if (error !== null && error.message !== 'Cancelled') {
             result = Router.getErrorComponent(error, this.errors);
