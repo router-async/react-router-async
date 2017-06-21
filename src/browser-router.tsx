@@ -74,7 +74,7 @@ export default class BrowserRouter extends Router {
         const path = pathname + search + hash;
         if (this.router.isRunning) this.router.cancel();
         const currentTransition = this.router.currentTransition;
-        let opts = { path };
+        let opts = { path, ctx: new Context() };
         if (state.ctx) opts.ctx = state.ctx;
         let { location, route, status, params, redirect, result, ctx, error } = await this.router.run(opts);
         if (error && error.message === 'Cancelled') return;
