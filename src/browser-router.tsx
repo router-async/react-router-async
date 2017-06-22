@@ -7,6 +7,7 @@ export default class BrowserRouter extends Router {
     private history: any;
     private unlistenHistroy: any;
     private stateFromServer: any;
+    private __CTX__: any;
     constructor(props) {
         super(props);
         this.history = props.history;
