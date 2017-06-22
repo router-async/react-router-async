@@ -11,6 +11,7 @@ export default class BrowserRouter extends Router {
         super(props);
         this.history = props.history;
         this.stateFromServer = null;
+        this.__CTX__ = null;
         if (window && '__REACT_ROUTER_ASYNC__' in window) {
             this.stateFromServer = window['__REACT_ROUTER_ASYNC__'].state;
             if (this.stateFromServer.error !== null) {
@@ -42,12 +43,17 @@ export default class BrowserRouter extends Router {
         const { redirect, error } = await this.router.resolve({ path, ctx });
         if (error === null) {
             if (redirect) {
-                this.history.push(redirect, { ctx });
+                this.__CTX__ = ctx;
+                this.history.push(redirect);
             } else {
-                this.history.push(path, { ctx });
+                this.__CTX__ = ctx;
+                this.history.push(path);
             }
         } else {
-            if (error.message !== 'Cancelled') this.history.push(path);
+            if (error.message !== 'Cancelled') {
+                this.__CTX__ = ctx;
+                this.history.push(path);
+            }
         }
     }
     async push(path, ctx = new Context()) {
@@ -75,7 +81,10 @@ export default class BrowserRouter extends Router {
         if (this.router.isRunning) this.router.cancel();
         const currentTransition = this.router.currentTransition;
         let opts = { path, ctx: new Context() };
-        if (state && state.ctx) opts.ctx = state.ctx;
+        if (this.__CTX__) {
+            opts.ctx = this.__CTX__;
+            this.__CTX__ = null;
+        }
         let { location, route, status, params, redirect, result, ctx, error } = await this.router.run(opts);
         if (error && error.message === 'Cancelled') return;
         if (error !== null && error.message !== 'Cancelled') {
