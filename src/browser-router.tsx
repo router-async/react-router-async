@@ -42,17 +42,11 @@ export default class BrowserRouter extends Router {
     async navigate(path, ctx = new Context()) {
         // if (this.router.isRunning) this.router.cancel(false);
         const { redirect, error } = await this.router.resolve({ path, ctx });
-        if (error === null) {
+        if (!(error && error.message === 'Cancelled')) {
+            this.__CTX__ = ctx;
             if (redirect) {
-                this.__CTX__ = ctx;
                 this.history.push(redirect);
             } else {
-                this.__CTX__ = ctx;
-                this.history.push(path);
-            }
-        } else {
-            if (error.message !== 'Cancelled') {
-                this.__CTX__ = ctx;
                 this.history.push(path);
             }
         }
