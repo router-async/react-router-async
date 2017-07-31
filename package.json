@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "prop-types": "15.x.x",
-    "router-async": "0.5.x"
+    "router-async": "0.5.x",
+    "serialize-javascript": "^1.4.0"
   }
 }
