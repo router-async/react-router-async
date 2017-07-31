@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import Router, { initParams, initResult } from './router';
 import { Context, stringifyQuery } from 'router-async';
+import * as serialize from 'serialize-javascript';
 
 export default class BrowserRouter extends Router {
     private history: any;
@@ -112,9 +113,9 @@ export default class BrowserRouter extends Router {
             <div>
                 {this.props.children ? this.props.children : <this.state.Component {...this.state.componentProps} />}
                 {this.stateFromServer !== null ?
-                    <script dangerouslySetInnerHTML={{ __html: `window.__REACT_ROUTER_ASYNC__=${JSON.stringify({
+                    <script dangerouslySetInnerHTML={{ __html: `window.__REACT_ROUTER_ASYNC__=${serialize({
                         state: this.stateFromServer
-                    })};`}} /> : null
+                    }, {isJSON: true})};`}} /> : null
                 }
             </div>
         )
