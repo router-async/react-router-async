@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 import Router, { initParams, initResult } from './router';
 import { Context, stringifyQuery } from 'router-async';
 import * as serialize from 'serialize-javascript';
@@ -30,14 +29,6 @@ export default class BrowserRouter extends Router {
         return {
             ...result,
             Router: BrowserRouter
-        };
-    }
-    static childContextTypes = {
-        router: PropTypes.object
-    };
-    getChildContext() {
-        return {
-            router: this
         };
     }
     async navigate(path, ctx = new Context()) {

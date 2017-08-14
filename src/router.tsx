@@ -1,5 +1,6 @@
-import { Router as RouterAsync, Context } from 'router-async';
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
+import { Router as RouterAsync, Context } from 'router-async';
 import { deepMap } from './helpers';
 
 export interface Props {
@@ -46,6 +47,9 @@ export interface initResult {
     routerProps?: any,
     componentProps?: any,
     callback?: any
+}
+export interface childContext {
+    router: PropTypes.object
 }
 
 export default class Router extends React.Component<Props, State> {
@@ -160,5 +164,13 @@ export default class Router extends React.Component<Props, State> {
     }
     getState() {
         return this.state;
+    }
+    static childContextTypes: childContext = {
+        router: PropTypes.object
+    }
+    getChildContext(): childContext {
+        return {
+            router: this
+        };
     }
 }
