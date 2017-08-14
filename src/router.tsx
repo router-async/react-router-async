@@ -19,7 +19,7 @@ export interface State {
 export interface Action {
     (): React.ReactElement<Props>;
 }
-interface Childs {
+export interface Childs {
     [index: number]: Route;
 }
 export interface Route {
