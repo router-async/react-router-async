@@ -1,6 +1,6 @@
 {
   "name": "react-router-async",
-  "version": "0.6.21",
+  "version": "0.6.22",
   "author": {
     "name": "Oleg Martynov",
     "email": "olegman.ru@gmail.com"
@@ -16,8 +16,8 @@
     "url": "https://github.com/router-async/react-router-async.git"
   },
   "license": "MIT",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "clean": "rm -rf lib",
     "watch": "yarn run clean && tsc -p . --watch",

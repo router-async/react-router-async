@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 import Router, { initParams, initResult } from './router';
 import * as serialize from 'serialize-javascript';
 
@@ -9,14 +8,6 @@ export default class ServerRouter extends Router {
         return {
             ...result,
             Router: ServerRouter
-        };
-    }
-    static childContextTypes = {
-        router: PropTypes.object
-    };
-    getChildContext() {
-        return {
-            router: this
         };
     }
     render() {
