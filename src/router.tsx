@@ -36,7 +36,8 @@ export interface initParams {
     hooks: any,
     history?: any,
     ctx: any,
-    errors: any
+    errors: any,
+    isUniversal: boolean
 }
 export interface initResult {
     Router?: any,
@@ -69,7 +70,7 @@ export default class Router extends React.Component<Props, State> {
         this.subscriber = null;
     }
     static async init(opts: initParams): Promise<initResult> {
-        const { path, routes, hooks, history = null, ctx = new Context(), errors } = opts;
+        const { path, routes, hooks, history = null, ctx = new Context(), errors, isUniversal } = opts;
         let plainRoutes;
         if ((Array.isArray(routes) && React.isValidElement(routes[0])) || React.isValidElement(routes)) {
             plainRoutes = Router.buildRoutes(routes);
@@ -77,7 +78,15 @@ export default class Router extends React.Component<Props, State> {
             plainRoutes = routes;
         }
         const router = new RouterAsync({ routes: plainRoutes, hooks });
-        let { location, route, status, params, redirect, result, error } = await router.run({ path, ctx });
+
+        let routerResult: any = {};
+        if (isUniversal) {
+            routerResult = await router.resolve({ path, ctx });
+        } else {
+            routerResult = await router.run({ path, ctx });
+        }
+        let { location, route, status, params, redirect, result, error } = routerResult;
+
         if (error !== null) {
             result = Router.getErrorComponent(error, errors);
         }
