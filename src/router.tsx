@@ -84,12 +84,14 @@ export default class Router extends React.Component<Props, State> {
         const router = new RouterAsync({ routes: plainRoutes, hooks });
 
         let routerResult: any = {};
+        let callback = () => { /* noop */ };
         if (isUniversal) {
             routerResult = await router.resolve({ path, ctx });
         } else {
             routerResult = await router.run({ path, ctx });
         }
         let { location, route, status, params, redirect, result, error } = routerResult;
+        if (!isUniversal) callback = this.makeCallback(router, router.currentTransition, { path, location, route, status, params, redirect, result, historyAction: null, ctx });
 
         if (error !== null) {
             result = Router.getErrorComponent(error, errors);
@@ -121,7 +123,7 @@ export default class Router extends React.Component<Props, State> {
                 errors
             },
             componentProps,
-            callback: this.makeCallback(router, router.currentTransition, { path, location, route, status, params, redirect, result, historyAction: null, ctx }),
+            callback,
             error
         }
     }
