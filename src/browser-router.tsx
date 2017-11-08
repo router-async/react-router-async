@@ -66,7 +66,6 @@ export default class BrowserRouter extends Router {
     private _locationChanged = async ({ pathname, hash, search, state }, historyAction) => {
         const path = pathname + search + hash;
         if (this.router.isRunning) this.router.cancel();
-        const currentTransition = this.router.currentTransition;
         let opts = { path, ctx: new Context() };
         if (this.__CTX__) {
             opts.ctx = this.__CTX__;
@@ -89,7 +88,7 @@ export default class BrowserRouter extends Router {
                 error
             }
         };
-        const renderCallback = Router.makeCallback(this.router, currentTransition, { path, location, route, status, params, redirect, result, historyAction, ctx });
+        const renderCallback = Router.makeCallback(this.router, this.router.currentTransition, { path, location, route, status, params, redirect, result, historyAction, ctx });
         this.changeComponent({ Component: result, componentProps: props, path, location, error, renderCallback });
     };
     componentDidMount() {
