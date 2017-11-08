@@ -13,6 +13,7 @@ script:
   - yarn run build
 
 deploy:
+  skip_cleanup: true
   provider: npm
   email: olegman.ru@gmail.com
   api_key: $NPM_API_KEY
