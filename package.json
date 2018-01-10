@@ -1,6 +1,6 @@
 {
   "name": "react-router-async",
-  "version": "0.6.31",
+  "version": "0.6.32",
   "author": {
     "name": "Oleg Martynov",
     "email": "olegman.ru@gmail.com"
@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "prop-types": "15.x.x",
-    "router-async": "0.5.x",
-    "serialize-javascript": "^1.4.0"
+    "router-async": "0.5.x"
   }
 }
