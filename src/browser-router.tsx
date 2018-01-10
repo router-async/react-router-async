@@ -92,7 +92,13 @@ export default class BrowserRouter extends Router {
         this.changeComponent({ Component: result, componentProps: props, path, location, error, renderCallback });
     };
     componentDidMount() {
-        this.unlistenHistroy = this.history.listen(this._locationChanged)
+        const $data = document.getElementById('__react-router-async');
+
+        if($data) {
+            $data.outerHTML = '';
+        }
+
+        this.unlistenHistroy = this.history.listen(this._locationChanged);
     }
     componentWillUnmount() {
         this.unlistenHistroy();
@@ -103,7 +109,7 @@ export default class BrowserRouter extends Router {
             <div>
                 {this.props.children ? this.props.children : <this.state.Component {...this.state.componentProps} />}
                 {this.stateFromServer !== null ?
-                    <script dangerouslySetInnerHTML={{ __html: `window.__REACT_ROUTER_ASYNC__=${serialize({
+                    <script id="__react-router-async" dangerouslySetInnerHTML={{ __html: `window.__REACT_ROUTER_ASYNC__=${serialize({
                         state: this.stateFromServer
                     }, {isJSON: true})};`}} /> : null
                 }
