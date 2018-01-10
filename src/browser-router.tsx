@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Router, { initParams, initResult } from './router';
 import { Context, stringifyQuery } from 'router-async';
-import * as serialize from 'serialize-javascript';
 
 export default class BrowserRouter extends Router {
     private history: any;
