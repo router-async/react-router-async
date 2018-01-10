@@ -13,7 +13,7 @@ export default class ServerRouter extends Router {
         return (
             <div>
                 {this.props.children ? this.props.children : <this.state.Component {...this.state.componentProps} />}
-                <script dangerouslySetInnerHTML={{ __html: `window.__REACT_ROUTER_ASYNC__=${JSON.stringify({
+                <script id="__react-router-async" dangerouslySetInnerHTML={{ __html: `window.__REACT_ROUTER_ASYNC__=${JSON.stringify({
                     state: this.state
                 })};`}} />
             </div>
