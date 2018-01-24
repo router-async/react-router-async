@@ -96,8 +96,8 @@ query-string@^4.3.2:
     strict-uri-encode "^1.0.0"
 
 router-async@0.5.x:
-  version "0.5.11"
-  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.5.11.tgz#72d3ee79eaeeb135d3185c81d729afc2c0ca5569"
+  version "0.5.13"
+  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.5.13.tgz#9a34fcac20e7358f4cd2c6527917382b3d75fc74"
   dependencies:
     path-to-regexp "^1.7.0"
     query-string "^4.3.2"
