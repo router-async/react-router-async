@@ -107,16 +107,25 @@ export default class BrowserRouter extends Router {
         this.unlistenHistroy();
     }
 
+    get elScript() {
+        if(this.stateFromServer !== null) {
+            const props = {
+                id                     : '__react-router-async',
+                dangerouslySetInnerHTML: {
+                    __html: `window.__REACT_ROUTER_ASYNC__=${JSON.stringify({ state: this.stateFromServer })};`
+                }
+            };
+            
+            return <script {...props} />
+        }
+    }
+    
     render() {
         return (
-            <div>
+            <React.Fragment>
                 {this.props.children ? this.props.children : <this.state.Component {...this.state.componentProps} />}
-                {this.stateFromServer !== null ?
-                    <script id="__react-router-async" dangerouslySetInnerHTML={{ __html: `window.__REACT_ROUTER_ASYNC__=${JSON.stringify({
-                        state: this.stateFromServer
-                    })};`}} /> : null
-                }
-            </div>
+                {this.elScript}
+            </React.Fragment>
         )
     }
 }
