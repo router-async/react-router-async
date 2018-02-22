@@ -19,11 +19,12 @@ export default class Placeholder extends React.Component<Props, State> {
     static contextTypes = {
         router: PropTypes.object.isRequired
     };
-    constructor({ Component, componentProps }) {
-        super();
+    constructor(props) {
+        super(props);
+
         this.state = {
-            Component,
-            componentProps
+            Component     : props.Component,
+            componentProps: props.componentProps
         };
     }
     componentDidMount() {

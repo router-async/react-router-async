@@ -48,7 +48,8 @@ export interface initResult {
     status?: any,
     routerProps?: any,
     componentProps?: any,
-    callback?: any
+    callback?: any,
+    error?: any
 }
 export interface childContext {
     router: PropTypes.object
@@ -60,18 +61,19 @@ export default class Router extends React.Component<Props, State> {
     path: string;
     location: any;
     private subscriber: any;
-    constructor({ Component, componentProps, router, path, location, errors }) {
-        super();
+    constructor(props) {
+        super(props);
+
         this.state = {
-            Component,
-            componentProps,
-            path,
-            location,
-            error: componentProps.router.error
+            Component     : props.Component,
+            componentProps: props.componentProps,
+            path          : props.path,
+            location      : props.location,
+            error         : props.componentProps.router.error
         };
 
-        this.router = router;
-        this.errors = errors;
+        this.router = props.router;
+        this.errors = props.errors;
         this.subscriber = null;
     }
     static async init(opts: initParams): Promise<initResult> {

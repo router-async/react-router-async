@@ -1,6 +1,6 @@
 {
   "name": "react-router-async",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "author": {
     "name": "Oleg Martynov",
     "email": "olegman.ru@gmail.com"
@@ -26,7 +26,10 @@
     "tsc": "tsc"
   },
   "devDependencies": {
-    "typescript": "2.2.1"
+    "@types/es6-promise": "3.x.x",
+    "@types/node": "9.x.x",
+    "@types/react": "16.x.x",
+    "typescript": "2.x.x"
   },
   "peerDependencies": {
     "react": "16.x.x"
