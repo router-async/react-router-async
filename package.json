@@ -20,14 +20,12 @@
   "typings": "index.d.ts",
   "scripts": {
     "clean": "rm -rf lib",
-    "watch": "yarn run clean && tsc -p . --watch",
-    "transpile": "yarn run clean && tsc -p .",
-    "build": "yarn run clean && tsc --outDir ./ -p .",
+    "watch": "yarn clean && tsc -p . --watch",
+    "transpile": "yarn clean && tsc -p .",
+    "build": "yarn clean && tsc --outDir ./ -p .",
     "tsc": "tsc"
   },
   "devDependencies": {
-    "@types/es6-promise": "3.x.x",
-    "@types/node": "9.x.x",
     "@types/react": "16.x.x",
     "typescript": "2.x.x"
   },

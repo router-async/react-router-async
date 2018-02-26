@@ -1,16 +1,14 @@
 language: node_js
 sudo: false
 node_js:
-  - 6
+  - 8
 
 cache:
   directories:
     - node_modules
 
 script:
-  - yarn global add typings
-  - typings install
-  - yarn run build
+  - yarn build
 
 deploy:
   skip_cleanup: true
