@@ -46,14 +46,14 @@ export default class BrowserRouter extends Router {
             }            
         }
     }
-    async push(path, state = {}, ctx = new Context()) {
+    async push(path, state = {}, ctx = new Context(), force = false) {
         // console.warn('Please use navigate method instead of push, it will be deprecated in future');
         if (typeof path === 'string') {
-            await this.navigate(path, state, ctx);
+            await this.navigate(path, state, ctx, force);
         } else {
             let fullPath = path.pathname;
             if (path.query) fullPath += `?${stringifyQuery(path.query)}`;
-            await this.navigate(fullPath, state, ctx);
+            await this.navigate(fullPath, state, ctx, force);
         }
     }
     // TODO: maybe we need to make this history methods works through navigate?
