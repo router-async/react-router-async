@@ -23,7 +23,8 @@ export default class BrowserRouter extends Router {
         }
     }
     static async init(opts: initParams): Promise<initResult> {
-        opts.path = opts.history.location.pathname + opts.history.location.search + opts.history.location.hash;
+        const { pathname, search, hash } = opts.history.location;
+        opts.path = `${pathname}${search}${hash}`.replace(/^(\/)+/, '/');
         const result = await super.init(opts);
         return {
             ...result,
