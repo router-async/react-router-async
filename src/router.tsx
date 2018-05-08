@@ -61,6 +61,7 @@ export default class Router extends React.Component<Props, State> {
     path: string;
     location: any;
     private subscriber: any;
+    private static clearSlashesRegex = /\/{2,}/g;
     constructor(props) {
         super(props);
 
@@ -77,7 +78,9 @@ export default class Router extends React.Component<Props, State> {
         this.subscriber = null;
     }
     static async init(opts: initParams): Promise<initResult> {
-        const { path, routes, hooks, history = null, ctx = new Context(), errors, isUniversal, helpers } = opts;
+        const { routes, hooks, history = null, ctx = new Context(), errors, isUniversal, helpers } = opts;
+        let { path } = opts;
+        path = path.replace(this.clearSlashesRegex, '/');
         let plainRoutes;
         if ((Array.isArray(routes) && React.isValidElement(routes[0])) || React.isValidElement(routes)) {
             plainRoutes = Router.buildRoutes(routes);
