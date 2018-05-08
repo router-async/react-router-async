@@ -61,7 +61,7 @@ export default class Router extends React.Component<Props, State> {
     path: string;
     location: any;
     private subscriber: any;
-    private static clearSlashesRegex = /\/+/g;
+    private static clearSlashesRegex = /\/{2,}/g;
     constructor(props) {
         super(props);
 
