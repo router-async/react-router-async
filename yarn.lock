@@ -47,6 +47,7 @@ is-stream@^1.0.1:
 isarray@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
+  integrity sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=
 
 isomorphic-fetch@^2.1.1:
   version "2.2.1"
@@ -79,6 +80,7 @@ object-assign@^4.1.0, object-assign@^4.1.1:
 path-to-regexp@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.7.0.tgz#59fde0f435badacba103a84e9d3bc64e96b9937d"
+  integrity sha1-Wf3g9DW62suhA6hOnTvGTpa5k30=
   dependencies:
     isarray "0.0.1"
 
@@ -99,13 +101,15 @@ prop-types@15.x.x:
 query-string@^4.3.2:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.3.4.tgz#bbb693b9ca915c232515b228b1a02b609043dbeb"
+  integrity sha1-u7aTucqRXCMlFbIosaArYJBD2+s=
   dependencies:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
 router-async@0.5.x:
-  version "0.5.19"
-  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.5.19.tgz#a5675c1790e8d6a113e6fed80efe63a659d73e0e"
+  version "0.5.20"
+  resolved "https://registry.yarnpkg.com/router-async/-/router-async-0.5.20.tgz#b851a098d323d58a2a174801293af0673b3964cf"
+  integrity sha512-xPq0clSe0SlvNDXBTomAZWuOAcNlJToODCyA7ieeQtRJBTo6OgiPfd9rj1ci+VRVSVuI5rGIDpe3dzs9VXu1yA==
   dependencies:
     path-to-regexp "^1.7.0"
     query-string "^4.3.2"
@@ -121,6 +125,7 @@ setimmediate@^1.0.5:
 strict-uri-encode@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz#279b225df1d582b1f54e65addd4352e18faa0713"
+  integrity sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=
 
 typescript@2.x.x:
   version "2.7.2"

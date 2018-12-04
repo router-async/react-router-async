@@ -39,7 +39,8 @@ export interface initParams {
     ctx: any,
     errors: any,
     isUniversal: boolean,
-    helpers?: any
+    helpers?: any,
+    isCaseInsesitive?: boolean
 }
 export interface initResult {
     Router?: any,
@@ -78,16 +79,23 @@ export default class Router extends React.Component<Props, State> {
         this.subscriber = null;
     }
     static async init(opts: initParams): Promise<initResult> {
-        const { routes, hooks, history = null, ctx = new Context(), errors, isUniversal, helpers } = opts;
+        const { routes, hooks, history = null, ctx = new Context(), errors, isUniversal, helpers, isCaseInsesitive = false } = opts;
         let { path } = opts;
-        path = path.replace(this.clearSlashesRegex, '/');
         let plainRoutes;
+
+        path = path.replace(this.clearSlashesRegex, '/');
+        
         if ((Array.isArray(routes) && React.isValidElement(routes[0])) || React.isValidElement(routes)) {
             plainRoutes = Router.buildRoutes(routes);
         } else {
             plainRoutes = routes;
         }
+
         const router = new RouterAsync({ routes: plainRoutes, hooks, helpers });
+
+        if(isCaseInsesitive) {
+            path = this.caseInsesitive(path, router.routes);
+        }
 
         let routerResult: any = {};
         let callback = () => { /* noop */ };
@@ -132,6 +140,21 @@ export default class Router extends React.Component<Props, State> {
             callback,
             error
         }
+    }
+    static caseInsesitive(path, routes) {
+        for(const route of routes) {
+            if(typeof route.path === 'object') {
+                if(route.pattern.exec(path.toLowerCase())) {
+                    return path.toLowerCase();
+                }
+            } else {
+                if(route.path.toLowerCase() === path.toLowerCase() || route.pattern.exec(path)) {
+                    return route.path;
+                }
+            }
+        }
+
+        return path;
     }
     static buildRoutes(routes) {
         if (!Array.isArray(routes)) routes = routes.props.children;
