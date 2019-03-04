@@ -33,7 +33,7 @@ export default class BrowserRouter extends Router {
         };
     }
     async navigate(path, state = {}, ctx = new Context(), force = false) {
-        const currentPath = window.location.pathname + window.location.search;
+        const currentPath = window.location.pathname + window.location.search + window.location.hash;
         
         if(force || path !== currentPath) {
             // if (this.router.isRunning) this.router.cancel(false);
